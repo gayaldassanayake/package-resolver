@@ -3,11 +3,9 @@
 Complete
 ### Locking modes
 LATEST, SOFT, MEDIUM, HARD
+
 ### Major version compatibility checks
-In the current impl, 
-say pkg->a, pkg->b, b->a:1.0.0, a:1.0.0, a:2.0.0
-this fails with two incompatible versions a:1.0.0, a:2.0.0
-Should this be the case?
+Done
 
 ### Platform
 
@@ -25,3 +23,10 @@ Distribution/Central/(FileSystem)/Local/Custom
 can do with a DFS. So might need to change from a queue to a stack impl
 
 ### Pre release versions
+
+### Other
+
+1. Move the cases into a DDT
+2. Create different scenarios to be tested on.
+2. Refactor and move into separate functions. Will help when we need to impl locking modes.
+3. Allow configs like dist version, locking mode to be passed as args/ configs.

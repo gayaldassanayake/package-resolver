@@ -3,11 +3,12 @@ import ballerina/io;
 import ballerinacentral/semver;
 
 Resolved resolved = {};
-semver:Version ballerinaVersion = check new ("2201.7.0");
+semver:Version ballerinaVersion = check new ("2201.8.0");
 
 function resolveDependencies(string case) returns error? {
     Index index = check loadIndex(case);
     PackageDesc[] directDependencies = check loadDirectDependencies(case);
+    // TODO: read dep.toml and bal.toml and create blended deps.
 
     Queue queue = []; // BFS
     queue.push(...directDependencies);
@@ -23,7 +24,7 @@ function resolveDependencies(string case) returns error? {
             return error(string `No available versions for in the index: ${key}`);
         }
         // TODO: pass the currently set version here.
-        IndexPackage? latest = check updateLatestVersion(indexPkgs);
+        IndexPackage? latest = check updateLatestVersion(indexPkgs, package.version);
         if latest == () {
             return error(string `No matching versions for in the index: ${key}`);
         }
@@ -34,7 +35,7 @@ function resolveDependencies(string case) returns error? {
     io:println(resolved);
 }
 
-function updateLatestVersion(IndexPackage[] indexPkgs) returns IndexPackage?|error {
+function updateLatestVersion(IndexPackage[] indexPkgs, string? currentNodeVersionStr) returns IndexPackage?|error {
     IndexPackage? latestPkg = ();
 
     foreach IndexPackage pkg in indexPkgs {
@@ -42,11 +43,30 @@ function updateLatestVersion(IndexPackage[] indexPkgs) returns IndexPackage?|err
         if !isDistCompatible(packageBalVersion) {
             continue;
         }
+        semver:Version version = check new (pkg.version);
+
+        // if the major version is not equal to what we have in the resolved, skip
+        string? currentResolvedVersionStr = resolved[pkgKey(pkg)];
+        // TODO: move to a separate function
+        if currentResolvedVersionStr != () {
+            semver:Version currentResolvedVersion = check new (currentResolvedVersionStr);
+            if version.getMajorVersion() != currentResolvedVersion.getMajorVersion() {
+                continue;
+            }
+        }
+
+        // if the major version is not equal to what we have in the current node, skip
+        if currentNodeVersionStr != () {
+            semver:Version currentNodeVersion = check new (currentNodeVersionStr);
+            if version.getMajorVersion() != currentNodeVersion.getMajorVersion() {
+                continue;
+            }
+        }
+
         if latestPkg == () {
             latestPkg = pkg;
             continue;
         }
-        semver:Version version = check new (pkg.version);
         semver:Version latest = check new (latestPkg.version);
         if latest.lessThan(version) {
             latestPkg = pkg;

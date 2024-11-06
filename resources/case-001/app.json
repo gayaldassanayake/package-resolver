@@ -6,5 +6,9 @@
     {
         "org": "ballerina",
         "name": "os"
+    },
+    {
+        "org": "ballerina",
+        "name": "io"
     }
 ]
