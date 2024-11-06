@@ -9,6 +9,20 @@ distribution-version = "2201.10.2"
 
 [[package]]
 org = "ballerina"
+name = "file"
+version = "1.10.0"
+dependencies = [
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "os"},
+	{org = "ballerina", name = "time"}
+]
+modules = [
+	{org = "ballerina", packageName = "file", moduleName = "file"}
+]
+
+[[package]]
+org = "ballerina"
 name = "io"
 version = "1.6.1"
 dependencies = [
@@ -52,6 +66,23 @@ dependencies = [
 ]
 
 [[package]]
+org = "ballerina"
+name = "os"
+version = "1.8.0"
+dependencies = [
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
+name = "time"
+version = "2.4.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
 org = "ballerinacentral"
 name = "semver"
 version = "1.0.0"
@@ -85,6 +116,7 @@ org = "gayaldassanayake"
 name = "package_resolver"
 version = "0.1.0"
 dependencies = [
+	{org = "ballerina", name = "file"},
 	{org = "ballerina", name = "io"},
 	{org = "ballerinacentral", name = "semver"},
 	{org = "ballerinai", name = "observe"}

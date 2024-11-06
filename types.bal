@@ -1,14 +1,22 @@
 type PackageDesc record {|
     string org;
     string name;
+    string version?;
+|};
+
+type PackageDescs PackageDesc[];
+
+type IndexPackageVersion record {|
+    string org;
+    string name;
     string version;
 |};
 
 type IndexPackage record {|
-    *PackageDesc;
+    *IndexPackageVersion;
     string ballerinaVersion;
     record {|
-        *PackageDesc;
+        *IndexPackageVersion;
     |}[] dependencies;
 |};
 
@@ -18,11 +26,11 @@ type Index map<IndexPackage[]>;
 
 // type Node PackageDesc;
 
-type Graph record {|
-    PackageDesc rootNode;
-|};
+// type Graph record {|
+//     PackageDesc rootNode;
+// |};
 
-type Stack PackageDesc[];
+// type Stack PackageDesc[];
 
 type Queue PackageDesc[];
 
