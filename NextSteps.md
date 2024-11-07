@@ -13,6 +13,9 @@ Done
 Introduce testOnly, provided scopes
 
 ### Introduce Dependencies.toml
+Done.
+
+Filter out any dependencies that are not used. This might need maintaining an actual graph
 
 ### Sub module resolution
 

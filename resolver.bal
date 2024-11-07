@@ -9,6 +9,11 @@ function resolveDependencies(string case) returns error? {
     Index index = check loadIndex(case);
     PackageDesc[] directDependencies = check loadDirectDependencies(case);
     // TODO: read dep.toml and bal.toml and create blended deps.
+    PackageDesc[] depTomlDependencies = check loadDependenciesToml(case);
+    foreach PackageDesc pkg in depTomlDependencies {
+        // dep-toml should always have a version recorded
+        resolved[pkgDescKey(pkg)] = <string>pkg.version;
+    }
 
     Queue queue = []; // BFS
     queue.push(...directDependencies);
@@ -45,6 +50,7 @@ function updateLatestVersion(IndexPackage[] indexPkgs, string? currentNodeVersio
         }
         semver:Version version = check new (pkg.version);
 
+        // TODO: for the other locking modes, consider the current node version and the dep.toml version(currentResolvedVersion)
         // if the major version is not equal to what we have in the resolved, skip
         string? currentResolvedVersionStr = resolved[pkgKey(pkg)];
         // TODO: move to a separate function

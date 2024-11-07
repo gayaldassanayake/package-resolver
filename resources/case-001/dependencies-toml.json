@@ -1,0 +1,22 @@
+[
+    {
+        "org": "ballerina",
+        "name": "file",
+        "version": "1.8.0"
+    },
+    {
+        "org": "ballerina",
+        "name": "os",
+        "version": "1.8.0"
+    },
+    {
+        "org": "ballerina",
+        "name": "io",
+        "version": "1.6.1"
+    },
+    {
+        "org": "ballerina",
+        "name": "time",
+        "version": "2.5.0"
+    }
+]

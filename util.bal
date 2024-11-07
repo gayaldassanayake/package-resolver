@@ -27,3 +27,10 @@ function loadDirectDependencies(string case) returns PackageDesc[]|error {
     PackageDesc[] dependencies = check dependencyJson.cloneWithType(PackageDescs);
     return dependencies;
 }
+
+function loadDependenciesToml(string case) returns PackageDesc[]|error {
+    string depTomlPath = string `./resources/${case}/dependencies-toml.json`;
+    json depTomlJson = check io:fileReadJson(depTomlPath);
+    PackageDesc[] dependencies = check depTomlJson.cloneWithType(PackageDescs);
+    return dependencies;
+}
